@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import ListItem from './components/ListItem';
 import statesData, { StayData } from './data';
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 
 const STORAGE_KEY = 'rankedStates';
 
@@ -34,37 +34,34 @@ const App: React.FC = () => {
   const onDragEnd = async (result: DropResult) => {
     const { source, destination } = result;
     if (!destination) return;
-  
+
     const prevTopId = rankedItems[0]?.id;
-  
+
     let updatedRanked = [...rankedItems];
     let updatedUnranked = [...unrankedItems];
-  
+
     const isSameList = source.droppableId === destination.droppableId;
-  
-    // Moving within same list
+
     if (isSameList) {
       const list = source.droppableId === 'ranked' ? [...rankedItems] : [...unrankedItems];
       const [movedItem] = list.splice(source.index, 1);
       list.splice(destination.index, 0, movedItem);
-  
+
       if (source.droppableId === 'ranked') {
         updatedRanked = list;
       } else {
         updatedUnranked = list;
       }
     } else {
-      // Moving between lists
       const sourceList = source.droppableId === 'ranked' ? [...rankedItems] : [...unrankedItems];
       const destList = destination.droppableId === 'ranked' ? [...rankedItems] : [...unrankedItems];
-  
+
       const [movedItem] = sourceList.splice(source.index, 1);
-  
-      // Avoid duplicates
+
       if (destList.find((item) => item.id === movedItem.id)) return;
-  
+
       destList.splice(destination.index, 0, movedItem);
-  
+
       if (source.droppableId === 'ranked') {
         updatedRanked = destList;
         updatedUnranked = sourceList;
@@ -73,22 +70,17 @@ const App: React.FC = () => {
         updatedUnranked = sourceList;
       }
     }
-  
+
     prevRankedRef.current = rankedItems;
     setRankedItems(updatedRanked);
     setUnrankedItems(updatedUnranked);
-  
+
     const newTopId = updatedRanked[0]?.id;
-    if (
-      newTopId &&
-      newTopId !== prevTopId &&
-      topRankedRef.current
-    ) {
+    if (newTopId && newTopId !== prevTopId && topRankedRef.current) {
       const { fireConfettiAtElement } = await import('./utils/confetti');
       fireConfettiAtElement(topRankedRef.current);
     }
   };
-  
 
   const getMovementDirection = (itemId: string, currentIndex: number) => {
     const prevIndex = prevRankedRef.current.findIndex((item) => item.id === itemId);
@@ -109,7 +101,22 @@ const App: React.FC = () => {
               <span className="text-sm block">50 States</span>
               <h1 className="text-4xl font-bold">Top Stays</h1>
             </div>
-            <span className="text-5xl">🏆</span>
+            <span
+              className="text-5xl cursor-pointer hover:opacity-80 transition-opacity"
+              title="Click to reset rankings"
+              onClick={() => {
+                const confirmed = window.confirm(
+                  "Are you sure you want to reset the rankings? This can't be undone."
+                );
+                if (confirmed) {
+                  setUnrankedItems([...rankedItems, ...unrankedItems]);
+                  setRankedItems([]);
+                  localStorage.removeItem(STORAGE_KEY);
+                }
+              }}
+            >
+              🏆
+            </span>
           </div>
 
           {/* Ranked Items */}
