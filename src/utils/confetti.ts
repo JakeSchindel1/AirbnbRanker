@@ -10,8 +10,8 @@ export const fireConfettiAtElement = (element: HTMLElement) => {
     y: centerY / window.innerHeight,
   };
 
-  const duration = 500;
-  const interval = 251;
+  const duration = 181;
+  const interval = 140;
   const end = Date.now() + duration;
 
   const intervalId = setInterval(() => {
