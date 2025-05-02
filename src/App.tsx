@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import ListItem from './components/ListItem';
 import statesData, { StayData } from './data';
+import { Analytics } from "@vercel/analytics/react"
 
 const STORAGE_KEY = 'rankedStates';
 
@@ -161,6 +162,7 @@ const App: React.FC = () => {
           </Droppable>
         </div>
       </div>
+      <Analytics />
     </DragDropContext>
   );
 };
