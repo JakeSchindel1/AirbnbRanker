@@ -12,15 +12,11 @@ interface ListItemProps {
 const ListItem: React.FC<ListItemProps> = ({ item, index, isRanked, movement }) => {
   const isTopRanked = isRanked && index === 0;
 
-  const visualEffect = !isRanked
-    ? 'filter grayscale blur-sm opacity-60 transition duration-200'
-    : '';
-
   const movementIcon = movement === 'up'
     ? '▲'
     : movement === 'down'
     ? '▼'
-    : '–';
+    : '?';
 
   return (
     <Draggable draggableId={item.id} index={index}>
@@ -31,15 +27,16 @@ const ListItem: React.FC<ListItemProps> = ({ item, index, isRanked, movement }) 
           {...provided.dragHandleProps}
           className={`flex items-center justify-between px-4 py-3 bg-white rounded-xl border-b border-gray-200 overflow-visible ${
             snapshot.isDragging ? 'bg-gray-100 shadow-xl z-10 transition-transform duration-200 ease-in-out' : ''
-          } ${!isRanked ? 'opacity-90' : ''}`}
+          }`}
         >
-          {/* Image with dark overlay when unranked */}
+          {/* Image wrapper with fade + blacked-out unranked state */}
           <div className="relative w-16 h-16 mr-4 flex-shrink-0 rounded-full overflow-hidden">
             <img
               src={item.imageUrl}
               alt={item.propertyName}
-              className="w-full h-full object-cover"
-              style={{ filter: !isRanked ? 'brightness(0.1)' : 'none' }}
+              className={`w-full h-full object-cover transition-all duration-700 ease-in-out ${
+                !isRanked ? 'brightness-[0.1]' : 'brightness-100'
+              }`}
             />
           </div>
 
@@ -64,7 +61,9 @@ const ListItem: React.FC<ListItemProps> = ({ item, index, isRanked, movement }) 
                 />
               </div>
             )}
-            <span className="mr-2">{isRanked ? index + 1 : '–'}</span>
+
+            <span className="mr-2">{isRanked ? index + 1 : '?'}</span>
+
             {isRanked && (
               <span
                 className={`text-lg ${
@@ -75,7 +74,11 @@ const ListItem: React.FC<ListItemProps> = ({ item, index, isRanked, movement }) 
                     : 'text-gray-400'
                 }`}
               >
-                {movementIcon}
+                {movement === 'up'
+                  ? '▲'
+                  : movement === 'down'
+                  ? '▼'
+                  : ''}
               </span>
             )}
           </div>
