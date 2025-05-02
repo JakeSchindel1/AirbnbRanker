@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import ListItem from './components/ListItem';
 import statesData, { StayData } from './data';
-import { Analytics } from "@vercel/analytics/react";
+import { useNavigate } from 'react-router-dom';
 
 const STORAGE_KEY = 'rankedStates';
 
@@ -11,6 +11,7 @@ const App: React.FC = () => {
   const [unrankedItems, setUnrankedItems] = useState<StayData[]>([]);
   const prevRankedRef = useRef<StayData[]>([]);
   const topRankedRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedRankedItems = localStorage.getItem(STORAGE_KEY);
@@ -90,15 +91,25 @@ const App: React.FC = () => {
     return null;
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    navigate('/');
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="min-h-screen flex flex-col items-center justify-center bg-white">
         <div className="max-w-md w-full pt-8 pb-20 px-4 text-center">
-          {/* Header */}
           <div className="flex justify-between items-center mb-8">
-            <img src="/airbnb.png" alt="Airbnb Logo" className="w-12 h-12" />
+            <img 
+              src="/airbnb.png" 
+              alt="Airbnb Logo" 
+              className="w-12 h-12 cursor-pointer hover:opacity-90 transition-opacity" 
+              onClick={handleLogout}
+              title="Secret logout button"
+            />
             <div>
-              <span className="text-sm block">50 States</span>
+              <span className="text-sm block font-normal">50 States</span>
               <h1 className="text-4xl font-bold">Top Stays</h1>
             </div>
             <span
@@ -120,7 +131,6 @@ const App: React.FC = () => {
             </span>
           </div>
 
-          {/* Ranked Items */}
           <Droppable droppableId="ranked">
             {(provided) => (
               <div
@@ -146,7 +156,6 @@ const App: React.FC = () => {
 
           <hr className="my-4" />
 
-          {/* Unranked Items */}
           <Droppable droppableId="unranked">
             {(provided) => (
               <div
@@ -170,7 +179,6 @@ const App: React.FC = () => {
           </Droppable>
         </div>
       </div>
-      <Analytics />
     </DragDropContext>
   );
 };

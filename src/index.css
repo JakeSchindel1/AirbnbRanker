@@ -2,17 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom font setup */
+/* Airbnb Cereal Font Setup */
 @font-face {
-  font-family: 'MyCustomFont';
-  src: local('MyCustomFont');
+  font-family: 'Airbnb Cereal';
+  src: url('../public/fonts/AirbnbCereal_W_Md.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
-  font-family: 'MyCustomFont';
-  src: local('MyCustomFont-Bold');
+  font-family: 'Airbnb Cereal';
+  src: url('../public/fonts/AirbnbCereal_W_Bd.otf') format('opentype');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
@@ -21,7 +22,7 @@
 /* Use the font globally */
 @layer base {
   html, body {
-    font-family: 'MyCustomFont', system-ui, sans-serif;
+    font-family: 'Airbnb Cereal', system-ui, sans-serif;
     @apply bg-gray-50 text-gray-900 antialiased;
   }
 }

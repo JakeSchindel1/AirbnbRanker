@@ -56,7 +56,7 @@ const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
             <div className="text-left flex-1 overflow-hidden">
               <h2 className="text-lg font-bold truncate">{item.state}</h2>
               {isRanked ? (
-                <p className="text-sm text-gray-500 truncate">{item.propertyName}</p>
+                <p className="text-sm text-gray-500 truncate font-normal">{item.propertyName}</p>
               ) : (
                 <p className="text-sm text-transparent select-none">Hidden</p>
               )}
