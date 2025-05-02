@@ -109,6 +109,7 @@ const App: React.FC = () => {
                   "Are you sure you want to reset the rankings? This can't be undone."
                 );
                 if (confirmed) {
+                  setUnrankedItems(statesData); 
                   setUnrankedItems([...rankedItems, ...unrankedItems]);
                   setRankedItems([]);
                   localStorage.removeItem(STORAGE_KEY);
