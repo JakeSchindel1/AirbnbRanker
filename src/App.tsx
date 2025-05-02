@@ -9,6 +9,7 @@ const App: React.FC = () => {
   const [rankedItems, setRankedItems] = useState<StayData[]>([]);
   const [unrankedItems, setUnrankedItems] = useState<StayData[]>([]);
   const prevRankedRef = useRef<StayData[]>([]);
+  const topRankedRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const savedRankedItems = localStorage.getItem(STORAGE_KEY);
@@ -29,45 +30,64 @@ const App: React.FC = () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(rankedItems));
   }, [rankedItems]);
 
-  const onDragEnd = (result: DropResult) => {
+  const onDragEnd = async (result: DropResult) => {
     const { source, destination } = result;
     if (!destination) return;
-
+  
+    const prevTopId = rankedItems[0]?.id;
+  
+    let updatedRanked = [...rankedItems];
+    let updatedUnranked = [...unrankedItems];
+  
     const isSameList = source.droppableId === destination.droppableId;
-
+  
+    // Moving within same list
     if (isSameList) {
       const list = source.droppableId === 'ranked' ? [...rankedItems] : [...unrankedItems];
       const [movedItem] = list.splice(source.index, 1);
       list.splice(destination.index, 0, movedItem);
-
+  
       if (source.droppableId === 'ranked') {
-        prevRankedRef.current = rankedItems;
-        setRankedItems(list);
+        updatedRanked = list;
       } else {
-        setUnrankedItems(list);
+        updatedUnranked = list;
       }
-
-      return;
-    }
-
-    const sourceList = source.droppableId === 'ranked' ? [...rankedItems] : [...unrankedItems];
-    const destList = destination.droppableId === 'ranked' ? [...rankedItems] : [...unrankedItems];
-
-    const [movedItem] = sourceList.splice(source.index, 1);
-
-    if (destList.find((item) => item.id === movedItem.id)) return;
-
-    destList.splice(destination.index, 0, movedItem);
-
-    if (source.droppableId === 'ranked') {
-      setRankedItems(sourceList);
-      setUnrankedItems(destList);
     } else {
-      prevRankedRef.current = rankedItems;
-      setUnrankedItems(sourceList);
-      setRankedItems(destList);
+      // Moving between lists
+      const sourceList = source.droppableId === 'ranked' ? [...rankedItems] : [...unrankedItems];
+      const destList = destination.droppableId === 'ranked' ? [...rankedItems] : [...unrankedItems];
+  
+      const [movedItem] = sourceList.splice(source.index, 1);
+  
+      // Avoid duplicates
+      if (destList.find((item) => item.id === movedItem.id)) return;
+  
+      destList.splice(destination.index, 0, movedItem);
+  
+      if (source.droppableId === 'ranked') {
+        updatedRanked = destList;
+        updatedUnranked = sourceList;
+      } else {
+        updatedRanked = destList;
+        updatedUnranked = sourceList;
+      }
+    }
+  
+    prevRankedRef.current = rankedItems;
+    setRankedItems(updatedRanked);
+    setUnrankedItems(updatedUnranked);
+  
+    const newTopId = updatedRanked[0]?.id;
+    if (
+      newTopId &&
+      newTopId !== prevTopId &&
+      topRankedRef.current
+    ) {
+      const { fireConfettiAtElement } = await import('./utils/confetti');
+      fireConfettiAtElement(topRankedRef.current);
     }
   };
+  
 
   const getMovementDirection = (itemId: string, currentIndex: number) => {
     const prevIndex = prevRankedRef.current.findIndex((item) => item.id === itemId);
@@ -97,7 +117,7 @@ const App: React.FC = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="mb-8 p-4 max-h-[500px] overflow-y-auto scroll-smooth"
+                className="mb-8 p-4"
               >
                 <h2 className="text-2xl font-bold mb-4">Ranked</h2>
                 {rankedItems.map((item, index) => (
@@ -107,6 +127,7 @@ const App: React.FC = () => {
                     index={index}
                     isRanked={true}
                     movement={getMovementDirection(item.id, index)}
+                    ref={index === 0 ? topRankedRef : undefined}
                   />
                 ))}
                 {provided.placeholder}
