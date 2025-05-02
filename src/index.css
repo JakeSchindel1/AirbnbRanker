@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom font setup */
+@font-face {
+  font-family: 'MyCustomFont';
+  src: local('MyCustomFont');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'MyCustomFont';
+  src: local('MyCustomFont-Bold');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Use the font globally */
+@layer base {
+  html, body {
+    font-family: 'MyCustomFont', system-ui, sans-serif;
+    @apply bg-gray-50 text-gray-900 antialiased;
+  }
+}
+
+/* Dragging visual effect */
+.dragging {
+  @apply opacity-75 shadow-lg;
+}
+
+/* Full height layout */
+html, body, #root {
+  @apply h-full;
+}
+
+/* Reset image sizing if needed */
+img {
+  @apply object-cover;
+}
