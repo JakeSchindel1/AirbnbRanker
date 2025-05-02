@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import { Draggable } from '@hello-pangea/dnd';
 import { StayData } from '../data';
 
@@ -13,11 +13,15 @@ const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
   ({ item, index, isRanked, movement }, ref) => {
     const isTopRanked = isRanked && index === 0;
 
-    const movementIcon = movement === 'up'
-      ? '▲'
-      : movement === 'down'
-      ? '▼'
-      : '?';
+    const [animateHeart, setAnimateHeart] = useState(false);
+
+    useEffect(() => {
+      if (isTopRanked) {
+        setAnimateHeart(true);
+        const timeout = setTimeout(() => setAnimateHeart(false), 600); // match CSS duration
+        return () => clearTimeout(timeout);
+      }
+    }, [isTopRanked]);
 
     return (
       <Draggable draggableId={item.id} index={index}>
@@ -65,7 +69,7 @@ const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
                   <img
                     src="/heart.png"
                     alt="Heart"
-                    className="w-full h-full object-contain block"
+                    className={`w-full h-full object-contain block ${animateHeart ? 'animate-pop' : ''}`}
                   />
                 </div>
               )}

@@ -2,9 +2,16 @@ import confetti from 'canvas-confetti';
 
 export const fireConfettiAtElement = (element: HTMLElement) => {
   const rect = element.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 1.2;
+  const centerY = rect.top + rect.height / 2;
 
-  const duration = 5000;
-  const interval = 700;
+  const origin = {
+    x: centerX / window.innerWidth,
+    y: centerY / window.innerHeight,
+  };
+
+  const duration = 500;
+  const interval = 251;
   const end = Date.now() + duration;
 
   const intervalId = setInterval(() => {
@@ -13,25 +20,17 @@ export const fireConfettiAtElement = (element: HTMLElement) => {
       return;
     }
 
-    for (let i = 0; i < 3; i++) {
-      const randomX = rect.left + Math.random() * rect.width;
-      const randomY = rect.top + Math.random() * rect.height;
-
-      confetti({
-        particleCount: 12,
-        angle: 90,                                 // 💥 toward viewer
-        spread: 60,                                // 🌐 moderate dispersion
-        startVelocity: 6,                         // ⛽ slower speed
-        scalar: Math.random() * 0.3 + 0.5,         // 👁️ depth illusion
-        gravity: 0.05,                             // 🪶 float longer
-        ticks: 90,
-        shapes: ['circle'],
-        origin: {
-          x: randomX / window.innerWidth,
-          y: randomY / window.innerHeight,
-        },
-        zIndex: 9999,
-      });
-    }
+    confetti({
+      particleCount: 30,
+      angle: 90,                  // upward burst
+      spread: 80,                // full-circle burst
+      startVelocity: 5,
+      gravity: 0.4,
+      scalar: Math.random() * 0.3 + 0.6,
+      shapes: ['circle'],
+      ticks: 90,
+      origin,
+      zIndex: 9999,
+    });
   }, interval);
 };
