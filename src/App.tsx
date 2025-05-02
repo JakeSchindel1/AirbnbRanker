@@ -80,7 +80,7 @@ const App: React.FC = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="min-h-screen flex flex-col items-center justify-center bg-white">
-        <div className="max-w-md w-full pt-8 pb-16 px-4 text-center">
+        <div className="max-w-md w-full pt-8 pb-20 px-4 text-center">
           {/* Header */}
           <div className="flex justify-between items-center mb-8">
             <img src="/airbnb.png" alt="Airbnb Logo" className="w-12 h-12" />
@@ -97,8 +97,9 @@ const App: React.FC = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="mb-8 p-4"
+                className="mb-8 p-4 max-h-[500px] overflow-y-auto scroll-smooth"
               >
+                <h2 className="text-2xl font-bold mb-4">Ranked</h2>
                 {rankedItems.map((item, index) => (
                   <ListItem
                     key={item.id}
