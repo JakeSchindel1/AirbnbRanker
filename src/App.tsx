@@ -99,7 +99,6 @@ const App: React.FC = () => {
                 {...provided.droppableProps}
                 className="mb-8 p-4"
               >
-                <h2 className="text-2xl font-bold mb-4">Ranked</h2>
                 {rankedItems.map((item, index) => (
                   <ListItem
                     key={item.id}
