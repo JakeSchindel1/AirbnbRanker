@@ -14,11 +14,16 @@ const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
     const isTopRanked = isRanked && index === 0;
 
     const [animateHeart, setAnimateHeart] = useState(false);
+    const [animateCrown, setAnimateCrown] = useState(false);
 
     useEffect(() => {
       if (isTopRanked) {
         setAnimateHeart(true);
-        const timeout = setTimeout(() => setAnimateHeart(false), 600); // match CSS duration
+        setAnimateCrown(true);
+        const timeout = setTimeout(() => {
+          setAnimateHeart(false);
+          setAnimateCrown(false);
+        }, 1200); // match glow duration
         return () => clearTimeout(timeout);
       }
     }, [isTopRanked]);
@@ -41,8 +46,24 @@ const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
               snapshot.isDragging ? 'bg-gray-100 shadow-xl z-10 transition-transform duration-200 ease-in-out' : ''
             }`}
           >
-            {/* Image wrapper with fade + blacked-out unranked state */}
-            <div className="relative w-16 h-16 mr-4 flex-shrink-0 rounded-full overflow-hidden">
+            {/* Image wrapper with crown overlay */}
+            <div className="relative w-16 h-16 mr-4 flex-shrink-0 rounded-full">
+              {/* 👑 Crown overlay */}
+              {isTopRanked && (
+                <img
+                  src="/crown.png"
+                  alt="Crown"
+                  className={`absolute z-[999] pointer-events-none ${
+                    animateCrown ? 'animate-glow' : ''
+                  }`}
+                  style={{
+                    width: '60%',
+                    height: '60%',
+                    top: -25,
+                    left: 10,
+                  }}
+                />
+              )}
               <img
                 src={item.imageUrl}
                 alt={item.propertyName}
