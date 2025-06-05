@@ -21,26 +21,26 @@ const statesData: StayData[] = [
   {
     id: "3",
     state: "Arizona",
-    propertyName: "Frank Lloyd Wright Villa",
-    imageUrl: "/50 circle files/3. AZ - Frank lloyd Wright Villa.png"
+    propertyName: "FLW Desert Villa",
+    imageUrl: "/50 circle files/3. AZ - FLW Desert Villa.png"
   },
   {
     id: "4",
     state: "Nevada",
-    propertyName: "Presidential Suite",
-    imageUrl: "/50 circle files/4. NV - Presidential Suite.png"
+    propertyName: "Vegas Penthouse",
+    imageUrl: "/50 circle files/4. NV - Vegas Penthouse.png"
   },
   {
     id: "5",
     state: "Utah",
-    propertyName: "Outpost X",
-    imageUrl: "/50 circle files/5. UT - Outpost X.png"
+    propertyName: "Star Wars Hut",
+    imageUrl: "/50 circle files/5. UT - Star Wars Hut.png"
   },
   {
     id: "6",
     state: "Colorado",
-    propertyName: "Valinor Ranch",
-    imageUrl: "/50 circle files/6. CO - Valinor Ranch.png"
+    propertyName: "Container Ranch",
+    imageUrl: "/50 circle files/6. CO - Container Ranch.png"
   },
   {
     id: "7",
@@ -51,14 +51,14 @@ const statesData: StayData[] = [
   {
     id: "8",
     state: "Kansas",
-    propertyName: "Zome on the Range",
-    imageUrl: "/50 circle files/8. KS - Zome on the Range.png"
+    propertyName: "The Kansas Dome",
+    imageUrl: "/50 circle files/8. KS - The Kansas Dome.png"
   },
   {
     id: "9",
     state: "Missouri",
     propertyName: "Earthouse Retreat",
-    imageUrl: "/50 circle files/9. MO - _Earthouse_ Retreat.png"
+    imageUrl: "/50 circle files/9. MO - Earthouse Retreat.png"
   },
   {
     id: "10",
@@ -70,19 +70,19 @@ const statesData: StayData[] = [
     id: "11",
     state: "Arkansas",
     propertyName: "Nuclear Missile Complex",
-    imageUrl: "/50 circle files/11. AR -Nuclear Missile Complex.png"
+    imageUrl: "/50 circle files/11. AR - Nuclear Missile Complex.png"
   },
   {
     id: "12",
     state: "Louisiana",
-    propertyName: "Ponchatoula 22 Estate",
-    imageUrl: "/50 circle files/12. LA - Ponchatoula 22 Estate.png"
+    propertyName: "Big Money Mansion",
+    imageUrl: "/50 circle files/12. LA - Big Money Mansion.png"
   },
   {
     id: "13",
     state: "Mississippi",
-    propertyName: "Coastal Retreat",
-    imageUrl: "/50 circle files/13. MS - Coastal Retreat.png"
+    propertyName: "The Poolhouse",
+    imageUrl: "/50 circle files/13. MS - The Poolhouse.png"
   },
   {
     id: "14",
@@ -93,20 +93,20 @@ const statesData: StayData[] = [
   {
     id: "15",
     state: "Florida",
-    propertyName: "Container House",
-    imageUrl: "/50 circle files/15. FL - Container House.png"
+    propertyName: "The Container Home",
+    imageUrl: "/50 circle files/15. FL - The Container Home.png"
   },
   {
     id: "16",
     state: "South Carolina",
-    propertyName: "Waterfront Retreat",
-    imageUrl: "/50 circle files/16. SC - Waterfront Retreat.png"
+    propertyName: "Charleston Waterfront House",
+    imageUrl: "/50 circle files/16. SC - Charleston Waterfront House.png"
   },
   {
     id: "17",
     state: "North Carolina",
-    propertyName: "Luxury Yacht",
-    imageUrl: "/50 circle files/17. NC - Luxury Yacht.png"
+    propertyName: "The Yacht",
+    imageUrl: "/50 circle files/17. NC - The Yacht.png"
   },
   {
     id: "18",
@@ -129,8 +129,8 @@ const statesData: StayData[] = [
   {
     id: "21",
     state: "West Virginia",
-    propertyName: "Basketball Cabin",
-    imageUrl: "/50 circle files/21. WV - Basketball Cabin.png"
+    propertyName: "Sports Cabin",
+    imageUrl: "/50 circle files/21. WV - Sports Cabin.png"
   },
   {
     id: "22",
@@ -177,8 +177,8 @@ const statesData: StayData[] = [
   {
     id: "29",
     state: "Massachusetts",
-    propertyName: "Wings Neck Lighthouse",
-    imageUrl: "/50 circle files/29. MA - Wings Neck Lighthouse.png"
+    propertyName: "The Lighthouse",
+    imageUrl: "/50 circle files/29. MA - The Lighthouse.png"
   },
   {
     id: "30",
@@ -207,14 +207,14 @@ const statesData: StayData[] = [
   {
     id: "34",
     state: "Ohio",
-    propertyName: "The Roca Box",
-    imageUrl: "/50 circle files/34. OH - The Roca Box.png"
+    propertyName: "The Box",
+    imageUrl: "/50 circle files/34. OH - The Box.png"
   },
   {
     id: "35",
     state: "Michigan",
-    propertyName: "Frank Lloyd Wright House",
-    imageUrl: "/50 circle files/35. MI - Frank Lloyd Wright House.png"
+    propertyName: "FLW Design House",
+    imageUrl: "/50 circle files/35. MI - FLW Design House.png"
   },
   {
     id: "36",
@@ -225,8 +225,8 @@ const statesData: StayData[] = [
   {
     id: "37",
     state: "Illinois",
-    propertyName: "Factory Home",
-    imageUrl: "/50 circle files/37. IL - Factory Home.png"
+    propertyName: "The Giga Factory",
+    imageUrl: "/50 circle files/37. IL - The Giga Factory.png"
   },
   {
     id: "38",
@@ -237,8 +237,8 @@ const statesData: StayData[] = [
   {
     id: "39",
     state: "Minnesota",
-    propertyName: "The Pumphouse",
-    imageUrl: "/50 circle files/39. MN - The Pumphouse.png"
+    propertyName: "The Lakehouse",
+    imageUrl: "/50 circle files/39. MN - The Lakehouse.png"
   },
   {
     id: "40",
@@ -285,14 +285,14 @@ const statesData: StayData[] = [
   {
     id: "47",
     state: "Oregon",
-    propertyName: "Rummer House",
-    imageUrl: "/50 circle files/47. OR - Rummer House.png"
+    propertyName: "Garden House",
+    imageUrl: "/50 circle files/47. OR - Garden House.png"
   },
   {
     id: "48",
     state: "Alaska",
-    propertyName: "Aurora House",
-    imageUrl: "/50 circle files/48. AK - Aurora House.png"
+    propertyName: "Northern Light Lookout",
+    imageUrl: "/50 circle files/48. AK - Northern Light Lookout.png"
   },
   {
     id: "49",
