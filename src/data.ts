@@ -189,7 +189,7 @@ const statesData: StayData[] = [
   {
     id: "31",
     state: "New Hampshire",
-    propertyName: "The Lil' Red Caboose",
+    propertyName: "The Lil_ Red Caboose",
     imageUrl: "/50 circle files/31. NH - The Lil_ Red Caboose.png"
   },
   {
