@@ -5,6 +5,7 @@ import './index.css';
 import App from './App';
 import SignIn from './SignIn';
 import ProtectedRoute from './ProtectedRoute';
+import Settings from './components/Settings';
 import { Analytics } from '@vercel/analytics/react';
 
 const root = ReactDOM.createRoot(
@@ -18,6 +19,7 @@ root.render(
         <Route path="/" element={<SignIn />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/app" element={<App />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

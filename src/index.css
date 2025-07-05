@@ -32,6 +32,30 @@
   @apply opacity-75 shadow-lg;
 }
 
+/* Mobile drag and drop fixes */
+@media (max-width: 768px) {
+  [data-rbd-draggable-id] {
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  [data-rbd-drag-handle-draggable-id] {
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Fix dragged items staying visible */
+  [data-rbd-draggable-id] {
+    will-change: transform;
+  }
+}
+
 /* Full height layout */
 html, body, #root {
   @apply h-full;

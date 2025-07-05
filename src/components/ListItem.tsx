@@ -7,14 +7,55 @@ interface ListItemProps {
   index: number;
   isRanked: boolean;
   movement: 'up' | 'down' | null;
+  rank?: number; // Optional rank for display (overrides index + 1)
+  isRecentlyAdded?: boolean; // Whether this item was recently added to ranked
+  glowColor?: string; // Custom glow color
+  glowBlurRadius?: number; // Custom glow blur radius
 }
 
 const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
-  ({ item, index, isRanked, movement }, ref) => {
-    const isTopRanked = isRanked && index === 0;
+  ({ item, index, isRanked, movement, rank, isRecentlyAdded, glowColor = 'green', glowBlurRadius = 5 }, ref) => {
+    const displayRank = rank !== undefined ? rank : index + 1;
+    const isTopRanked = isRanked && displayRank === 1;
 
     const [animateHeart, setAnimateHeart] = useState(false);
     const [animateCrown, setAnimateCrown] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Detect mobile screen size
+    useEffect(() => {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      
+      checkMobile();
+      window.addEventListener('resize', checkMobile);
+      return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Get the appropriate CSS classes for the glow color and blur
+    const getGlowClasses = (color: string, blurRadius: number) => {
+      const colorMap: { [key: string]: string } = {
+        green: 'ring-green-400 shadow-green-400',
+        blue: 'ring-blue-400 shadow-blue-400',
+        purple: 'ring-purple-400 shadow-purple-400',
+        pink: 'ring-pink-400 shadow-pink-400',
+        orange: 'ring-orange-400 shadow-orange-400',
+        red: 'ring-red-400 shadow-red-400',
+        yellow: 'ring-yellow-400 shadow-yellow-400',
+        cyan: 'ring-cyan-400 shadow-cyan-400'
+      };
+      
+      const blurMap: { [key: number]: string } = {
+        1: '/10', 2: '/20', 3: '/25', 4: '/30', 5: '/35', 
+        6: '/40', 7: '/45', 8: '/50', 9: '/60', 10: '/75'
+      };
+      
+      const baseClass = colorMap[color] || colorMap.green;
+      const blurClass = blurMap[blurRadius] || '/35';
+      
+      return `${baseClass}${blurClass}`;
+    };
 
     useEffect(() => {
       if (isTopRanked) {
@@ -42,9 +83,30 @@ const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
             }}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            className={`flex items-center justify-between px-4 py-3 bg-white rounded-xl border-b border-gray-200 overflow-visible ${
-              snapshot.isDragging ? 'bg-gray-100 shadow-xl z-10 transition-transform duration-200 ease-in-out' : ''
-            }`}
+            className={`flex items-center justify-between px-4 py-3 bg-white rounded-xl border border-gray-200 overflow-visible ${
+              snapshot.isDragging 
+                ? 'bg-gray-50 shadow-lg' 
+                : 'hover:shadow-md'
+            } ${isRecentlyAdded ? `ring-2 ring-opacity-50 shadow-lg ${getGlowClasses(glowColor, glowBlurRadius)}` : ''}`}
+            style={{
+              ...provided.draggableProps.style,
+              // Apply mobile fixes only on mobile devices
+              ...(snapshot.isDragging && isMobile && {
+                ...(isRanked ? {
+                  // For ranked items on mobile: minimal interference to prevent jump
+                  zIndex: 9999,
+                } : {
+                  // For unranked items on mobile: more control
+                  position: 'fixed' as const,
+                  zIndex: 9999,
+                  pointerEvents: 'none' as const,
+                })
+              }),
+              // Desktop drag styling (clean, normal behavior)
+              ...(snapshot.isDragging && !isMobile && {
+                zIndex: 9999,
+              })
+            }}
           >
             {/* Image wrapper with crown overlay */}
             <div className="relative w-16 h-16 mr-4 flex-shrink-0 rounded-full">
@@ -74,10 +136,12 @@ const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
             </div>
 
             {/* Text Info */}
-            <div className="text-left flex-1 overflow-hidden">
-              <h2 className="text-lg font-bold truncate">{item.state}</h2>
+            <div className="text-left flex-1 overflow-hidden mr-2">
+              <h2 className="text-lg font-bold leading-tight">{item.state}</h2>
               {isRanked ? (
-                <p className="text-sm text-gray-500 truncate font-normal">{item.propertyName}</p>
+                <p className="text-sm text-gray-500 font-normal leading-tight">
+                  {item.propertyName}
+                </p>
               ) : (
                 <p className="text-sm text-transparent select-none">Hidden</p>
               )}
@@ -95,7 +159,7 @@ const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
                 </div>
               )}
 
-              <span className="mr-2">{isRanked ? index + 1 : '?'}</span>
+              <span className="mr-2">{isRanked ? displayRank : '?'}</span>
 
               {isRanked && (
                 <span

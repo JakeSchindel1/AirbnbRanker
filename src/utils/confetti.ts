@@ -2,7 +2,7 @@ import confetti from 'canvas-confetti';
 
 export const fireConfettiAtElement = (element: HTMLElement) => {
   const rect = element.getBoundingClientRect();
-  const centerX = rect.left + rect.width / 1.22;
+  const centerX = rect.left + rect.width / 1.17;
   const centerY = rect.top + rect.height / 2;
 
   const origin = {
