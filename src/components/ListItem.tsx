@@ -80,15 +80,16 @@ const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
                 : 'hover:shadow-md'
             } ${isRecentlyAdded ? `ring-2 ring-opacity-50 shadow-lg ${getGlowClasses(glowColor, glowBlurRadius)}` : ''}`}
             style={{
-              // Only apply provided styles on desktop to prevent mobile positioning issues
-              ...(isMobile ? {} : provided.draggableProps.style),
+              // Apply all provided styles to maintain proper positioning
+              ...provided.draggableProps.style,
               ...(snapshot.isDragging && {
                 zIndex: 9999,
-                // On mobile, keep the drag clone in a reasonable position
+                // On mobile, ensure full size and proper positioning
                 ...(isMobile && {
-                  position: 'fixed',
-                  pointerEvents: 'none',
+                  width: 'calc(100vw - 2rem)', // Match mobile container width
+                  maxWidth: '448px', // Match max-w-md
                   transform: provided.draggableProps.style?.transform || 'none',
+                  pointerEvents: 'none',
                 }),
               })
             }}

@@ -302,11 +302,13 @@ const App: React.FC = () => {
             <div className="block md:hidden">
               <div className="max-w-md mx-auto px-4">
                 <Droppable droppableId="ranked">
-                  {(provided) => (
+                  {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      className="space-y-2 min-h-[100px]"
+                      className={`space-y-2 min-h-[100px] transition-colors duration-200 ${
+                        snapshot.isDraggingOver ? 'bg-blue-50 rounded-lg' : ''
+                      }`}
                     >
                       {/* Ranked items with proper spacing and visual feedback */}
                       {rankedItems.map((item, index) => (

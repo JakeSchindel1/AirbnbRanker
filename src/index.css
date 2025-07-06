@@ -44,24 +44,44 @@
     -webkit-tap-highlight-color: transparent !important;
   }
   
-  /* Prevent jumping to top-left during drag */
+  /* Allow smooth animations for non-dragging items */
   [data-rbd-draggable-id]:not([data-rbd-drag-handle-context-id]) {
-    transition: none !important;
-    transform: none !important;
+    transition: transform 0.2s ease !important;
   }
   
-  /* Fix drag clone positioning on mobile */
+  /* Fix drag clone positioning and ensure full size */
   [data-rbd-draggable-id][data-rbd-drag-handle-context-id] {
     position: fixed !important;
     pointer-events: none !important;
     z-index: 9999 !important;
     transform-origin: top left !important;
+    transition: none !important;
+    opacity: 0.9 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
   }
   
-  /* Ensure droppable areas maintain proper layout */
+  /* Ensure droppable areas work properly */
   [data-rbd-droppable-id] {
     position: relative !important;
-    contain: layout !important;
+  }
+  
+  /* Smooth placeholder animations */
+  [data-rbd-placeholder] {
+    transition: all 0.2s ease !important;
+  }
+  
+  /* Mobile-specific droppable styling */
+  .block.md\\:hidden [data-rbd-droppable-id="ranked"] {
+    min-height: 100px !important;
+  }
+  
+  /* Ensure proper spacing during drag on mobile */
+  .block.md\\:hidden [data-rbd-draggable-id] {
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .block.md\\:hidden [data-rbd-draggable-id]:last-child {
+    margin-bottom: 0 !important;
   }
 }
 
