@@ -6,6 +6,7 @@ import App from './App';
 import SignIn from './SignIn';
 import ProtectedRoute from './ProtectedRoute';
 import Settings from './components/Settings';
+import PostView from './components/PostView';
 import { Analytics } from '@vercel/analytics/react';
 
 const root = ReactDOM.createRoot(
@@ -20,6 +21,7 @@ root.render(
         <Route element={<ProtectedRoute />}>
           <Route path="/app" element={<App />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/post-view" element={<PostView />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

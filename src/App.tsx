@@ -206,6 +206,9 @@ const App: React.FC = () => {
       updatedUnranked.splice(destination.index, 0, movedItem);
     }
 
+    // Save previous rankings to localStorage for PostView
+    localStorage.setItem('prevRankedStates', JSON.stringify(rankedItems));
+    
     prevRankedRef.current = rankedItems;
     setRankedItems(updatedRanked);
     setUnrankedItems(updatedUnranked);
@@ -262,6 +265,13 @@ const App: React.FC = () => {
             <div className="flex items-center space-x-4">
               <span
                 className="text-3xl cursor-pointer hover:opacity-80 transition-opacity"
+                title="Post View for Instagram"
+                onClick={() => navigate('/post-view')}
+              >
+                📸
+              </span>
+              <span
+                className="text-3xl cursor-pointer hover:opacity-80 transition-opacity"
                 title="Settings"
                 onClick={() => navigate('/settings')}
               >
@@ -295,33 +305,31 @@ const App: React.FC = () => {
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className="px-4 min-h-[100px]"
+                    className="px-2 min-h-[100px] space-y-2"
                     style={{
-                      // Better drop zone detection
                       paddingTop: '8px',
                       paddingBottom: '8px',
                     }}
                   >
                     {rankedItems.map((item, index) => (
-                      <div key={item.id} className="mb-2 last:mb-0">
-                        <ListItem
-                          item={item}
-                          index={index}
-                          isRanked={true}
-                          movement={getMovementDirection(item.id, index)}
-                          rank={index + 1}
-                          isRecentlyAdded={recentlyAddedItemId === item.id}
-                          glowColor={glowSettings.color}
-                          glowBlurRadius={glowSettings.blurRadius}
-                          ref={index === 0 ? topRankedRef : undefined}
-                        />
-                      </div>
+                      <ListItem
+                        key={item.id}
+                        item={item}
+                        index={index}
+                        isRanked={true}
+                        movement={getMovementDirection(item.id, index)}
+                        rank={index + 1}
+                        isRecentlyAdded={recentlyAddedItemId === item.id}
+                        glowColor={glowSettings.color}
+                        glowBlurRadius={glowSettings.blurRadius}
+                        ref={index === 0 ? topRankedRef : undefined}
+                      />
                     ))}
                     {provided.placeholder}
                     
                     {/* Empty state with drop indicators */}
                     {rankedItems.length === 0 && (
-                      <div className="h-20 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center text-gray-400">
+                      <div className="h-20 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center text-gray-400 mx-2">
                         Drop states here to rank them
                       </div>
                     )}
