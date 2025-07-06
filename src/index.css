@@ -69,20 +69,6 @@
   [data-rbd-placeholder] {
     transition: all 0.2s ease !important;
   }
-  
-  /* Mobile-specific droppable styling */
-  .block.md\\:hidden [data-rbd-droppable-id="ranked"] {
-    min-height: 100px !important;
-  }
-  
-  /* Ensure proper spacing during drag on mobile */
-  .block.md\\:hidden [data-rbd-draggable-id] {
-    margin-bottom: 0.5rem !important;
-  }
-  
-  .block.md\\:hidden [data-rbd-draggable-id]:last-child {
-    margin-bottom: 0 !important;
-  }
 }
 
 /* Full height layout */

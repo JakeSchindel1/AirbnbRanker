@@ -302,15 +302,12 @@ const App: React.FC = () => {
             <div className="block md:hidden">
               <div className="max-w-md mx-auto px-4">
                 <Droppable droppableId="ranked">
-                  {(provided, snapshot) => (
+                  {(provided) => (
                     <div
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      className={`space-y-2 min-h-[100px] transition-colors duration-200 ${
-                        snapshot.isDraggingOver ? 'bg-blue-50 rounded-lg' : ''
-                      }`}
+                      className="space-y-2 min-h-[100px]"
                     >
-                      {/* Ranked items with proper spacing and visual feedback */}
                       {rankedItems.map((item, index) => (
                         <ListItem
                           key={item.id}
@@ -325,21 +322,6 @@ const App: React.FC = () => {
                           ref={index === 0 ? topRankedRef : undefined}
                         />
                       ))}
-                      
-                      {/* Empty slots for visual feedback - limit to next 10 slots on mobile */}
-                      {Array.from({ 
-                        length: Math.min(10, Math.max(0, 50 - rankedItems.length))
-                      }).map((_, emptyIndex) => (
-                        <div 
-                          key={`empty-mobile-${emptyIndex}`} 
-                          className="h-[88px] opacity-30 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center"
-                        >
-                          <span className="text-gray-400 text-sm">
-                            #{rankedItems.length + emptyIndex + 1}
-                          </span>
-                        </div>
-                      ))}
-                      
                       {provided.placeholder}
                     </div>
                   )}
