@@ -90,21 +90,20 @@ const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
             } ${isRecentlyAdded ? `ring-2 ring-opacity-50 shadow-lg ${getGlowClasses(glowColor, glowBlurRadius)}` : ''}`}
             style={{
               ...provided.draggableProps.style,
-              // Apply mobile fixes only on mobile devices
+              // MOBILE ONLY: Completely separate mobile behavior
               ...(snapshot.isDragging && isMobile && {
-                ...(isRanked ? {
-                  // For ranked items on mobile: minimal interference to prevent jump
-                  zIndex: 9999,
-                } : {
-                  // For unranked items on mobile: more control
-                  position: 'fixed' as const,
-                  zIndex: 9999,
-                  pointerEvents: 'none' as const,
-                })
+                zIndex: 9999,
+                // Mobile: Always use transform positioning, never fixed
+                position: 'relative' as const,
+                // Disable pointer events during drag to prevent interference
+                pointerEvents: 'none' as const,
+                // Ensure proper layering
+                transform: provided.draggableProps.style?.transform || 'none',
               }),
-              // Desktop drag styling (clean, normal behavior)
+              // DESKTOP ONLY: Clean desktop behavior
               ...(snapshot.isDragging && !isMobile && {
                 zIndex: 9999,
+                // Desktop gets normal behavior
               })
             }}
           >
