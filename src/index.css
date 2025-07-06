@@ -33,6 +33,27 @@
 }
 
 
+/* Mobile drag and drop fixes - prevent glitching */
+@media (max-width: 768px) {
+  /* Prevent mobile drag glitches */
+  [data-rbd-draggable-id] {
+    touch-action: manipulation !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+    -webkit-touch-callout: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+  
+  /* Prevent jumping to top-left during drag */
+  [data-rbd-draggable-id]:not([data-rbd-drag-handle-context-id]) {
+    transition: none !important;
+  }
+  
+  /* Ensure mobile ranked area behaves properly */
+  [data-rbd-droppable-id="ranked-mobile"] {
+    position: relative !important;
+  }
+}
 
 /* Full height layout */
 html, body, #root {

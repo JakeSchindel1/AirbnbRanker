@@ -146,22 +146,22 @@ const App: React.FC = () => {
     let updatedRanked = [...rankedItems];
     let updatedUnranked = [...unrankedItems];
 
-    // Check if source/destination are ranked (includes column-based droppables)
-    const isSourceRanked = source.droppableId === 'ranked' || source.droppableId.startsWith('ranked-');
-    const isDestRanked = destination.droppableId === 'ranked' || destination.droppableId.startsWith('ranked-');
+    // Check if source/destination are ranked (includes column-based droppables and mobile)
+    const isSourceRanked = source.droppableId === 'ranked' || source.droppableId === 'ranked-mobile' || source.droppableId.startsWith('ranked-');
+    const isDestRanked = destination.droppableId === 'ranked' || destination.droppableId === 'ranked-mobile' || destination.droppableId.startsWith('ranked-');
 
     if (isSourceRanked && isDestRanked) {
       // Within ranked list
       let sourceIndex = source.index;
       let destIndex = destination.index;
       
-      // Handle column-based droppables (desktop)
-      if (source.droppableId.startsWith('ranked-')) {
+      // Handle column-based droppables (desktop only, not mobile)
+      if (source.droppableId.startsWith('ranked-') && source.droppableId !== 'ranked-mobile') {
         const sourceColumn = parseInt(source.droppableId.split('-')[1]);
         sourceIndex = sourceColumn * 10 + source.index;
       }
       
-      if (destination.droppableId.startsWith('ranked-')) {
+      if (destination.droppableId.startsWith('ranked-') && destination.droppableId !== 'ranked-mobile') {
         const destColumn = parseInt(destination.droppableId.split('-')[1]);
         destIndex = destColumn * 10 + destination.index;
       }
@@ -173,8 +173,8 @@ const App: React.FC = () => {
       // From ranked to unranked
       let sourceIndex = source.index;
       
-      // Handle column-based droppables (desktop)
-      if (source.droppableId.startsWith('ranked-')) {
+      // Handle column-based droppables (desktop only, not mobile)
+      if (source.droppableId.startsWith('ranked-') && source.droppableId !== 'ranked-mobile') {
         const sourceColumn = parseInt(source.droppableId.split('-')[1]);
         sourceIndex = sourceColumn * 10 + source.index;
       }
@@ -186,8 +186,8 @@ const App: React.FC = () => {
       // From unranked to ranked
       let destIndex = destination.index;
       
-      // Handle column-based droppables (desktop)
-      if (destination.droppableId.startsWith('ranked-')) {
+      // Handle column-based droppables (desktop only, not mobile)
+      if (destination.droppableId.startsWith('ranked-') && destination.droppableId !== 'ranked-mobile') {
         const destColumn = parseInt(destination.droppableId.split('-')[1]);
         destIndex = destColumn * 10 + destination.index;
       }
@@ -300,31 +300,49 @@ const App: React.FC = () => {
             
             {/* Mobile: Single column layout */}
             <div className="block md:hidden">
-              <Droppable droppableId="ranked">
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    className="space-y-2 max-w-md mx-auto px-4"
-                  >
-                    {rankedItems.map((item, index) => (
-                      <ListItem
-                        key={item.id}
-                        item={item}
-                        index={index}
-                        isRanked={true}
-                        movement={getMovementDirection(item.id, index)}
-                        rank={index + 1}
-                        isRecentlyAdded={recentlyAddedItemId === item.id}
-                        glowColor={glowSettings.color}
-                        glowBlurRadius={glowSettings.blurRadius}
-                        ref={index === 0 ? topRankedRef : undefined}
-                      />
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
+              <div className="max-w-md mx-auto px-4">
+                <Droppable droppableId="ranked-mobile">
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      className="space-y-2 min-h-[100px]"
+                    >
+                      {/* Ranked items with proper spacing and visual feedback */}
+                      {rankedItems.map((item, index) => (
+                        <ListItem
+                          key={item.id}
+                          item={item}
+                          index={index}
+                          isRanked={true}
+                          movement={getMovementDirection(item.id, index)}
+                          rank={index + 1}
+                          isRecentlyAdded={recentlyAddedItemId === item.id}
+                          glowColor={glowSettings.color}
+                          glowBlurRadius={glowSettings.blurRadius}
+                          ref={index === 0 ? topRankedRef : undefined}
+                        />
+                      ))}
+                      
+                      {/* Empty slots for visual feedback - limited for mobile */}
+                      {Array.from({ 
+                        length: Math.min(10, Math.max(0, 50 - rankedItems.length))
+                      }).map((_, emptyIndex) => (
+                        <div 
+                          key={`empty-mobile-${emptyIndex}`} 
+                          className="h-[88px] opacity-30 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center"
+                        >
+                          <span className="text-gray-400 text-sm">
+                            #{rankedItems.length + emptyIndex + 1}
+                          </span>
+                        </div>
+                      ))}
+                      
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </div>
             </div>
             
             {/* Desktop: Multi-column grid layout */}
