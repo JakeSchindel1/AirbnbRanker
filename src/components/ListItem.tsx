@@ -21,6 +21,9 @@ const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
     const [animateHeart, setAnimateHeart] = useState(false);
     const [animateCrown, setAnimateCrown] = useState(false);
 
+    // Detect mobile device
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     // Get the appropriate CSS classes for the glow color and blur
     const getGlowClasses = (color: string, blurRadius: number) => {
       const colorMap: { [key: string]: string } = {
@@ -77,9 +80,16 @@ const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
                 : 'hover:shadow-md'
             } ${isRecentlyAdded ? `ring-2 ring-opacity-50 shadow-lg ${getGlowClasses(glowColor, glowBlurRadius)}` : ''}`}
             style={{
-              ...provided.draggableProps.style,
+              // Only apply provided styles on desktop to prevent mobile positioning issues
+              ...(isMobile ? {} : provided.draggableProps.style),
               ...(snapshot.isDragging && {
                 zIndex: 9999,
+                // On mobile, keep the drag clone in a reasonable position
+                ...(isMobile && {
+                  position: 'fixed',
+                  pointerEvents: 'none',
+                  transform: provided.draggableProps.style?.transform || 'none',
+                }),
               })
             }}
           >

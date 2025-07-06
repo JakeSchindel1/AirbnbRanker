@@ -324,6 +324,20 @@ const App: React.FC = () => {
                         />
                       ))}
                       
+                      {/* Empty slots for visual feedback - limit to next 10 slots on mobile */}
+                      {Array.from({ 
+                        length: Math.min(10, Math.max(0, 50 - rankedItems.length))
+                      }).map((_, emptyIndex) => (
+                        <div 
+                          key={`empty-mobile-${emptyIndex}`} 
+                          className="h-[88px] opacity-30 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center"
+                        >
+                          <span className="text-gray-400 text-sm">
+                            #{rankedItems.length + emptyIndex + 1}
+                          </span>
+                        </div>
+                      ))}
+                      
                       {provided.placeholder}
                     </div>
                   )}
