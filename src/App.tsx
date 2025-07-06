@@ -147,8 +147,8 @@ const App: React.FC = () => {
     let updatedUnranked = [...unrankedItems];
 
     // Check if source/destination are ranked (includes column-based droppables and mobile)
-    const isSourceRanked = source.droppableId === 'ranked' || source.droppableId === 'ranked-mobile' || source.droppableId.startsWith('ranked-');
-    const isDestRanked = destination.droppableId === 'ranked' || destination.droppableId === 'ranked-mobile' || destination.droppableId.startsWith('ranked-');
+    const isSourceRanked = source.droppableId === 'ranked' || source.droppableId.startsWith('ranked-');
+    const isDestRanked = destination.droppableId === 'ranked' || destination.droppableId.startsWith('ranked-');
 
     if (isSourceRanked && isDestRanked) {
       // Within ranked list
@@ -156,12 +156,12 @@ const App: React.FC = () => {
       let destIndex = destination.index;
       
       // Handle column-based droppables (desktop only, not mobile)
-      if (source.droppableId.startsWith('ranked-') && source.droppableId !== 'ranked-mobile') {
+      if (source.droppableId.startsWith('ranked-')) {
         const sourceColumn = parseInt(source.droppableId.split('-')[1]);
         sourceIndex = sourceColumn * 10 + source.index;
       }
       
-      if (destination.droppableId.startsWith('ranked-') && destination.droppableId !== 'ranked-mobile') {
+      if (destination.droppableId.startsWith('ranked-')) {
         const destColumn = parseInt(destination.droppableId.split('-')[1]);
         destIndex = destColumn * 10 + destination.index;
       }
@@ -174,7 +174,7 @@ const App: React.FC = () => {
       let sourceIndex = source.index;
       
       // Handle column-based droppables (desktop only, not mobile)
-      if (source.droppableId.startsWith('ranked-') && source.droppableId !== 'ranked-mobile') {
+      if (source.droppableId.startsWith('ranked-')) {
         const sourceColumn = parseInt(source.droppableId.split('-')[1]);
         sourceIndex = sourceColumn * 10 + source.index;
       }
@@ -187,7 +187,7 @@ const App: React.FC = () => {
       let destIndex = destination.index;
       
       // Handle column-based droppables (desktop only, not mobile)
-      if (destination.droppableId.startsWith('ranked-') && destination.droppableId !== 'ranked-mobile') {
+      if (destination.droppableId.startsWith('ranked-')) {
         const destColumn = parseInt(destination.droppableId.split('-')[1]);
         destIndex = destColumn * 10 + destination.index;
       }
@@ -239,7 +239,7 @@ const App: React.FC = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="min-h-screen flex flex-col items-center justify-center bg-white">
+      <div className="min-h-screen flex flex-col bg-white items-center">
         <div className="max-w-md md:max-w-4xl lg:max-w-6xl xl:max-w-7xl w-full pt-8 pb-20 px-4 text-center">
           <div className="flex justify-between items-center mb-8">
             <img 
@@ -301,7 +301,7 @@ const App: React.FC = () => {
             {/* Mobile: Single column layout */}
             <div className="block md:hidden">
               <div className="max-w-md mx-auto px-4">
-                <Droppable droppableId="ranked-mobile">
+                <Droppable droppableId="ranked">
                   {(provided) => (
                     <div
                       ref={provided.innerRef}
