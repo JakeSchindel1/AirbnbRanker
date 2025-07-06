@@ -32,71 +32,7 @@
   @apply opacity-75 shadow-lg;
 }
 
-/* MOBILE ONLY: Completely separate mobile drag and drop behavior */
-@media (max-width: 768px) {
-  /* Mobile drag handle setup */
-  [data-rbd-draggable-id] {
-    touch-action: manipulation;
-    -webkit-user-select: none;
-    user-select: none;
-    -webkit-touch-callout: none;
-    -webkit-tap-highlight-color: transparent;
-    will-change: transform;
-    /* Mobile-specific: ensure relative positioning */
-    position: relative !important;
-  }
-  
-  [data-rbd-drag-handle-draggable-id] {
-    touch-action: manipulation;
-    -webkit-user-select: none;
-    user-select: none;
-    -webkit-touch-callout: none;
-    -webkit-tap-highlight-color: transparent;
-    will-change: transform;
-  }
-  
-  /* Mobile ranked droppable area */
-  [data-rbd-droppable-id="ranked"] {
-    position: relative;
-    z-index: 1;
-    /* Mobile-specific: better touch targets */
-    min-height: 100px;
-  }
-  
-  /* Mobile: No transitions during drag to prevent glitches */
-  [data-rbd-draggable-id]:not([data-rbd-drag-handle-context-id]) {
-    transition: none !important;
-    transform-origin: center !important;
-  }
-  
-  /* Mobile: Prevent page bounce and scrolling interference */
-  body {
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    /* Prevent momentum scrolling during drag */
-    overscroll-behavior-y: none;
-  }
-  
-  /* Mobile: Enhanced drop zone visibility */
-  [data-rbd-droppable-id="ranked"][data-rbd-droppable-context-id] {
-    background-color: rgba(248, 250, 252, 0.5);
-    border-radius: 12px;
-  }
-}
 
-/* DESKTOP ONLY: Clean desktop behavior */
-@media (min-width: 769px) {
-  /* Desktop gets normal, clean behavior */
-  [data-rbd-draggable-id] {
-    /* Desktop: allow normal transitions */
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-  }
-  
-  /* Desktop: Normal hover effects */
-  [data-rbd-draggable-id]:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-}
 
 /* Full height layout */
 html, body, #root {

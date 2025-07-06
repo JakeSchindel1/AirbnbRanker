@@ -20,18 +20,6 @@ const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
 
     const [animateHeart, setAnimateHeart] = useState(false);
     const [animateCrown, setAnimateCrown] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
-
-    // Detect mobile screen size
-    useEffect(() => {
-      const checkMobile = () => {
-        setIsMobile(window.innerWidth < 768);
-      };
-      
-      checkMobile();
-      window.addEventListener('resize', checkMobile);
-      return () => window.removeEventListener('resize', checkMobile);
-    }, []);
 
     // Get the appropriate CSS classes for the glow color and blur
     const getGlowClasses = (color: string, blurRadius: number) => {
@@ -90,20 +78,8 @@ const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
             } ${isRecentlyAdded ? `ring-2 ring-opacity-50 shadow-lg ${getGlowClasses(glowColor, glowBlurRadius)}` : ''}`}
             style={{
               ...provided.draggableProps.style,
-              // MOBILE ONLY: Completely separate mobile behavior
-              ...(snapshot.isDragging && isMobile && {
+              ...(snapshot.isDragging && {
                 zIndex: 9999,
-                // Mobile: Always use transform positioning, never fixed
-                position: 'relative' as const,
-                // Disable pointer events during drag to prevent interference
-                pointerEvents: 'none' as const,
-                // Ensure proper layering
-                transform: provided.draggableProps.style?.transform || 'none',
-              }),
-              // DESKTOP ONLY: Clean desktop behavior
-              ...(snapshot.isDragging && !isMobile && {
-                zIndex: 9999,
-                // Desktop gets normal behavior
               })
             }}
           >

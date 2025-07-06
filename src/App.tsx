@@ -300,55 +300,28 @@ const App: React.FC = () => {
             
             {/* Mobile: Single column layout */}
             <div className="block md:hidden">
-              <Droppable droppableId="ranked" direction="vertical">
-                {(provided, snapshot) => (
+              <Droppable droppableId="ranked">
+                {(provided) => (
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className="px-2 min-h-[100px]"
-                    style={{
-                      paddingTop: '12px',
-                      paddingBottom: '12px',
-                      // MOBILE ONLY: Enhanced drop zone styling
-                      backgroundColor: snapshot.isDraggingOver ? '#f8fafc' : 'transparent',
-                      borderRadius: '12px',
-                      transition: 'background-color 0.2s ease',
-                    }}
+                    className="space-y-2 max-w-md mx-auto px-4"
                   >
-                    {/* MOBILE ONLY: Better spaced items with drop zones */}
                     {rankedItems.map((item, index) => (
-                      <div key={item.id} className="mb-4 relative">
-                        {/* Drop zone indicator above each item (mobile only) */}
-                        {snapshot.isDraggingOver && (
-                          <div className="h-3 w-full bg-blue-200 rounded mb-2 opacity-60" />
-                        )}
-                        <ListItem
-                          item={item}
-                          index={index}
-                          isRanked={true}
-                          movement={getMovementDirection(item.id, index)}
-                          rank={index + 1}
-                          isRecentlyAdded={recentlyAddedItemId === item.id}
-                          glowColor={glowSettings.color}
-                          glowBlurRadius={glowSettings.blurRadius}
-                          ref={index === 0 ? topRankedRef : undefined}
-                        />
-                      </div>
+                      <ListItem
+                        key={item.id}
+                        item={item}
+                        index={index}
+                        isRanked={true}
+                        movement={getMovementDirection(item.id, index)}
+                        rank={index + 1}
+                        isRecentlyAdded={recentlyAddedItemId === item.id}
+                        glowColor={glowSettings.color}
+                        glowBlurRadius={glowSettings.blurRadius}
+                        ref={index === 0 ? topRankedRef : undefined}
+                      />
                     ))}
-                    
-                    {/* Final drop zone at bottom */}
-                    {snapshot.isDraggingOver && rankedItems.length > 0 && (
-                      <div className="h-3 w-full bg-blue-200 rounded mt-2 opacity-60" />
-                    )}
-                    
                     {provided.placeholder}
-                    
-                    {/* Empty state with drop indicators */}
-                    {rankedItems.length === 0 && (
-                      <div className="h-20 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center text-gray-400 mx-2">
-                        Drop states here to rank them
-                      </div>
-                    )}
                   </div>
                 )}
               </Droppable>
